@@ -50,4 +50,6 @@ public interface ListInterface<T> {
 
 	/** 将线性表内容输出 **/
 	void display();
+	/** 判断是否已满 **/
+	boolean isFull();
 }

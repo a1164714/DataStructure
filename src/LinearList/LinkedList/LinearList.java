@@ -67,22 +67,32 @@ public class LinearList<T> implements ListInterface<T> {
 		if (index < 0 || index > getLength()) {
 			throw new RuntimeException("IndexOutOfBound");
 		}
-		Node beforeNode = getNodeAt(index - 1);
-		Node afterNode = beforeNode.getNextNode();
-		Node currentNode = new Node(newEntry);
-		beforeNode.setNextNode(currentNode);
-		currentNode.setNextNode(afterNode);
+		if (index == 0) {
+			Node tmpNode = node;
+			node = new Node(newEntry);
+			node.setNextNode(tmpNode);
+		} else {
+			Node beforeNode = getNodeAt(index - 1);
+			Node afterNode = beforeNode.getNextNode();
+			Node currentNode = new Node(newEntry);
+			beforeNode.setNextNode(currentNode);
+			currentNode.setNextNode(afterNode);
+		}
 		length++;
 	}
 
 	@Override
 	public void remove(int index) {
-		if (isEmpty()||index < 0 || index > getLength()) {
+		if (isEmpty() || index < 0 || index > getLength()) {
 			throw new RuntimeException("IndexOutOfBound");
 		}
-		Node beforeNode = getNodeAt(index - 1);
-		Node currentNode = beforeNode.getNextNode();
-		beforeNode.setNextNode(currentNode.getNextNode());
+		if (index == 0) {
+			node = node.getNextNode();
+		} else {
+			Node beforeNode = getNodeAt(index - 1);
+			Node currentNode = beforeNode.getNextNode();
+			beforeNode.setNextNode(currentNode.getNextNode());
+		}
 		length--;
 	}
 
@@ -93,7 +103,7 @@ public class LinearList<T> implements ListInterface<T> {
 
 	@Override
 	public void replace(int index, T newEntry) {
-		if (isEmpty()||index < 0 || index > getLength()) {
+		if (isEmpty() || index < 0 || index > getLength()) {
 			throw new RuntimeException("IndexOutOfBound");
 		}
 		Node tmpNode = getNodeAt(index - 1);
@@ -151,6 +161,11 @@ public class LinearList<T> implements ListInterface<T> {
 			tmpNode = tmpNode.getNextNode();
 			times--;
 		}
+	}
+
+	@Override
+	public boolean isFull() {
+		return false;
 	}
 
 }
