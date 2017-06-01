@@ -1,8 +1,11 @@
-package LinearList.LinkedList;
+package Iterator.InnerIterator.LinkedList;
 
+import java.util.Iterator;
+
+import Iterator.InnerIterator.ListWithIteratorInterface;
 import LinearList.ListInterface;
 
-public class LinearList<T> implements ListInterface<T> {
+public class LinearList<T> implements ListWithIteratorInterface<T> {
 	private Node node;
 	private int length;
 
@@ -168,6 +171,36 @@ public class LinearList<T> implements ListInterface<T> {
 	@Override
 	public boolean isFull() {
 		return false;
+	}
+
+	@Override
+	public Iterator<T> getIterator() {
+		return new IteratorForLinkedList();
+	}
+
+	private class IteratorForLinkedList implements Iterator<T> {
+
+		private Node nextNode;
+
+		public IteratorForLinkedList() {
+			nextNode = node;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return nextNode != null ? true : false;
+		}
+
+		@Override
+		public T next() {
+			if (hasNext()) {
+				Node returnNode = nextNode;
+				nextNode = nextNode.getNextNode();
+				return returnNode.data;
+			}
+			throw new RuntimeException("illegal call to next()");
+		}
+
 	}
 
 }

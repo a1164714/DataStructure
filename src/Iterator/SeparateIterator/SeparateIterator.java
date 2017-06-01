@@ -1,6 +1,7 @@
 package Iterator.SeparateIterator;
 
-import LinearList.LinkedList.ListInterface;
+import Iterator.IteraotrInterface;
+import LinearList.ListInterface;
 
 public class SeparateIterator<T> implements IteraotrInterface<T> {
 	private boolean wasNextCalled;
@@ -15,20 +16,17 @@ public class SeparateIterator<T> implements IteraotrInterface<T> {
 
 	@Override
 	public boolean hasNext() {
-		if (currentPosition < list.getLength() - 1) {
-			return true;
-		}
-		return false;
+		return currentPosition < list.getLength() - 1;
 	}
 
 	@Override
 	public T next() {
-		if (currentPosition >= list.getLength() - 1) {
-			throw new RuntimeException("Don't have next elemnts!");
+		if (hasNext()) {
+			currentPosition++;
+			wasNextCalled = true;
+			return list.getEntry(currentPosition);
 		}
-		currentPosition++;
-		wasNextCalled = true;
-		return list.getEntry(currentPosition);
+		throw new RuntimeException("Don't have next elemnts!");
 	}
 
 	@Override

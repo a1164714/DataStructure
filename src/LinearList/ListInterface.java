@@ -1,4 +1,4 @@
-package LinearList.Array;
+package LinearList;
 
 public interface ListInterface<T> {
 	/**
@@ -48,9 +48,8 @@ public interface ListInterface<T> {
 	/** 判断是否为空 **/
 	boolean isEmpty();
 
-	/** 判断是否已满 **/
-	boolean isFull();
-
 	/** 将线性表内容输出 **/
 	void display();
+	/** 判断是否已满 **/
+	boolean isFull();
 }

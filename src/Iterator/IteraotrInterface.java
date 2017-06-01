@@ -1,4 +1,4 @@
-package Iterator.SeparateIterator;
+package Iterator;
 
 public interface IteraotrInterface<T> {
 	boolean hasNext();

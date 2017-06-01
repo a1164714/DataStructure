@@ -1,8 +1,10 @@
-package LinearList.Array;
+package Iterator.InnerIterator.array;
 
-import LinearList.ListInterface;
+import java.util.Iterator;
 
-public class LinearList<T> implements ListInterface<T> {
+import Iterator.InnerIterator.ListWithIteratorInterface;
+
+public class LinearList<T> implements ListWithIteratorInterface<T> {
 
 	private T[] arrs;
 	private int length;
@@ -136,6 +138,47 @@ public class LinearList<T> implements ListInterface<T> {
 		}
 		for (int i = 0; i < getLength(); i++) {
 			System.out.println(arrs[i]);
+		}
+	}
+
+	@Override
+	public Iterator<T> getIterator() {
+		return new IteratorForArrayList();
+	}
+
+	private class IteratorForArrayList implements Iterator<T> {
+		private boolean wasNextCalled;
+		private int currentPosition;
+
+		public IteratorForArrayList() {
+			currentPosition = -1;
+			wasNextCalled = false;
+		}
+
+		@Override
+		// length-1为最大下标
+		public boolean hasNext() {
+			return currentPosition < length - 1;
+		}
+
+		@Override
+		public T next() {
+			if (hasNext()) {
+				wasNextCalled = true;
+				currentPosition++;
+				return arrs[currentPosition];
+			}
+			throw new RuntimeException("Don't have next elemnts!");
+		}
+
+		public void remove() {
+			if (wasNextCalled) {
+				LinearList.this.remove(currentPosition);
+				currentPosition--;
+				wasNextCalled = false;
+				return;
+			}
+			throw new RuntimeException("wasNextCalled isn't true");
 		}
 	}
 
