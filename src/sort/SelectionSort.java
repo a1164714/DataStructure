@@ -21,6 +21,7 @@ public class SelectionSort {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private static void selectionSort(Integer[] arr, int n) {
 		if (n < 0 || n > arr.length) {
 			throw new RuntimeException("IndexOutOfBound");

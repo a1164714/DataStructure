@@ -1,4 +1,4 @@
-package sortlist;
+package sortedlist;
 
 /*
  * @Date:2017年6月5日 下午4:21:21

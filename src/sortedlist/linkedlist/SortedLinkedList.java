@@ -1,6 +1,6 @@
-package sortlist.linkedlist;
+package sortedlist.linkedlist;
 
-import sortlist.ISortList;
+import sortedlist.ISortList;
 
 public class SortedLinkedList<T extends Comparable<? super T>> implements
 		ISortList<T> {

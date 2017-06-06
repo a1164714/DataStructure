@@ -1,4 +1,4 @@
-package sortlist.linkedlist;
+package sortedlist.linkedlist;
 
 public class TestSortedLinkedList {
 	public static void main(String[] args) {

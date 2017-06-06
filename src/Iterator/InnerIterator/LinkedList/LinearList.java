@@ -3,7 +3,6 @@ package Iterator.InnerIterator.LinkedList;
 import java.util.Iterator;
 
 import Iterator.InnerIterator.ListWithIteratorInterface;
-import LinearList.ListInterface;
 
 public class LinearList<T> implements ListWithIteratorInterface<T> {
 	private Node node;
