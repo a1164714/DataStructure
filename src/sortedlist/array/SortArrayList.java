@@ -1,9 +1,8 @@
 package sortedlist.array;
 
-import LinearList.ListInterface;
-
+import linearlist.IList;
 public class SortArrayList<T extends Comparable<? super T>> implements
-		ListInterface<T> {
+		IList<T> {
 
 	private T[] arrs;
 	private int length;

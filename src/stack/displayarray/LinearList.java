@@ -1,26 +1,37 @@
-package search.array;
+package stack.displayarray;
 
 import linearlist.IList;
+import stack.IStack;
+import stack.arraystack.ArrayStack;
 
-public class SortArrayList<T extends Comparable<? super T>> implements IList<T> {
+public class LinearList<T> implements IList<T> {
 
 	private T[] arrs;
 	private int length;
 	private static final int INIT_SIZE = 10;
+
+	private class Record {
+		private int first, last;
+
+		private Record(int first, int last) {
+			this.first = first;
+			this.last = last;
+		}
+	}
 
 	// 测试用
 	protected int length() {
 		return arrs.length;
 	}
 
-	public SortArrayList() {
+	public LinearList() {
 		this(INIT_SIZE);
 	}
 
 	@SuppressWarnings("unchecked")
-	public SortArrayList(int intSize) {
+	public LinearList(int intSize) {
 		length = 0;
-		arrs = (T[]) new Comparable<?>[intSize];
+		arrs = (T[]) new Object[intSize];
 	}
 
 	@Override
@@ -28,15 +39,7 @@ public class SortArrayList<T extends Comparable<? super T>> implements IList<T> 
 		if (isFull()) {
 			doubleArray();
 		}
-		if (getLength() == 0) {
-			arrs[length] = newEntry;
-		} else {
-			int compareTimes = getLength();
-			while (newEntry.compareTo(arrs[compareTimes - 1]) < 0) {
-				arrs[compareTimes] = arrs[--compareTimes];
-			}
-			arrs[compareTimes] = newEntry;
-		}
+		arrs[length] = newEntry;
 		length++;
 	}
 
@@ -44,7 +47,7 @@ public class SortArrayList<T extends Comparable<? super T>> implements IList<T> 
 	private void doubleArray() {
 		T[] oldList = arrs;
 		int oldSize = arrs.length;
-		arrs = (T[]) new Comparable<?>[oldSize * 2];
+		arrs = (T[]) new Object[oldSize * 2];
 		for (int i = 0; i < oldList.length; i++) {
 			arrs[i] = oldList[i];
 		}
@@ -99,35 +102,12 @@ public class SortArrayList<T extends Comparable<? super T>> implements IList<T> 
 
 	@Override
 	public boolean contains(T anEntry) {
-		// return search(0, length - 1, anEntry);
-		return binarySearch(0, length - 1, anEntry);
-	}
-
-	private boolean binarySearch(int first, int last, T desiredItem) {
-		boolean found = false;
-		int mid = (first + last) / 2;
-		if (first > last) {
-			found = false;
-		} else if (desiredItem.equals(arrs[mid])) {
-			found = true;
-		} else if (desiredItem.compareTo(arrs[mid]) < 0) {
-			found = search(first, mid - 1, desiredItem);
-		} else {
-			found = search(mid + 1, last, desiredItem);
+		for (int i = 0; i < getLength(); i++) {
+			if (arrs[i] == anEntry) {
+				return true;
+			}
 		}
-		return found;
-	}
-
-	private boolean search(int first, int last, T anEntry) {
-		boolean found;
-		if (first > last) {
-			found = false;
-		} else if (anEntry.equals(arrs[first])) {
-			found = true;
-		} else {
-			found = search(first + 1, last, anEntry);
-		}
-		return found;
+		return false;
 	}
 
 	@Override
@@ -170,4 +150,20 @@ public class SortArrayList<T extends Comparable<? super T>> implements IList<T> 
 		}
 	}
 
+	public void stackDisplay(int first, int last) {
+		IStack<Record> programStack = new ArrayStack<Record>();
+		programStack.push(new Record(first, last));
+		while (!programStack.isEmpty()) {
+			Record record = programStack.pop();
+			first = record.first;
+			last = record.last;
+			if (first == last) {
+				System.out.println(arrs[first]);
+			} else {
+				int mid = (last + first) / 2;
+				programStack.push(new Record(mid + 1, last));
+				programStack.push(new Record(first, mid));
+			}
+		}
+	}
 }

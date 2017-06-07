@@ -1,7 +1,10 @@
-package recursion.linkedlist;
+package iterator.inneriterator.linkedlist;
 
-import linearlist.IList;
-public class LinearList<T> implements IList<T> {
+import iterator.inneriterator.IListWithIterator;
+
+import java.util.Iterator;
+
+public class LinearList<T> implements IListWithIterator<T> {
 	private Node node;
 	private int length;
 
@@ -167,6 +170,36 @@ public class LinearList<T> implements IList<T> {
 	@Override
 	public boolean isFull() {
 		return false;
+	}
+
+	@Override
+	public Iterator<T> getIterator() {
+		return new IteratorForLinkedList();
+	}
+
+	private class IteratorForLinkedList implements Iterator<T> {
+
+		private Node nextNode;
+
+		public IteratorForLinkedList() {
+			nextNode = node;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return nextNode != null ? true : false;
+		}
+
+		@Override
+		public T next() {
+			if (hasNext()) {
+				Node returnNode = nextNode;
+				nextNode = nextNode.getNextNode();
+				return returnNode.data;
+			}
+			throw new RuntimeException("illegal call to next()");
+		}
+
 	}
 
 }

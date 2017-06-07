@@ -1,8 +1,8 @@
 package recursion.arrays;
 
-import LinearList.ListInterface;
+import linearlist.IList;
 
-public class LinearList<T> implements ListInterface<T> {
+public class LinearList<T> implements IList<T> {
 
 	private T[] arrs;
 	private int length;

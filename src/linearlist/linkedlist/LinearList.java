@@ -1,6 +1,7 @@
-package recursion.linkedlist;
+package linearlist.linkedlist;
 
 import linearlist.IList;
+
 public class LinearList<T> implements IList<T> {
 	private Node node;
 	private int length;
