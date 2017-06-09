@@ -1,17 +1,18 @@
 package tree.binarytree;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
+import queue.queue.IQueue;
+import queue.queue.linked.LinkedQueue;
 import stack.IStack;
 import stack.linkedstack.LinkedStack;
 import tree.binarytree.binaryinterface.IBinaryNode;
 import tree.binarytree.binaryinterface.IBinaryTree;
 import tree.binarytree.exception.EmptyTreeException;
 import tree.binarytree.iterator.InOrderIterator;
+import tree.binarytree.iterator.LevelOrderIterator;
 import tree.binarytree.iterator.PostOrderIterator;
 import tree.binarytree.iterator.PreOrderIterator;
 
@@ -78,7 +79,7 @@ public class BinaryTree<T> implements IBinaryTree<T> {
 
 	@Override
 	public Iterator<T> getLevelOrderIterator() {
-		return null;
+		return new LevelOrderIterator<T>(root);
 	}
 
 	@Override
@@ -139,6 +140,21 @@ public class BinaryTree<T> implements IBinaryTree<T> {
 		this.root = root;
 	}
 
+	public void levelOrderTraverse() {
+		if (root == null)
+			return;
+		IQueue<IBinaryNode<T>> q = new LinkedQueue<IBinaryNode<T>>();
+		q.enqueue(root);
+		while (!q.isEmpty()) {
+			IBinaryNode<T> temp = q.dequeue();
+			System.out.println(temp.getData());
+			if (temp.getLeftChild() != null)
+				q.enqueue(temp.getLeftChild());
+			if (temp.getRightChild() != null)
+				q.enqueue(temp.getRightChild());
+		}
+	}
+
 	public void preOrderTraverse() {
 		IStack<IBinaryNode<T>> nodeStack = new LinkedStack<IBinaryNode<T>>();
 		IBinaryNode<T> currentNode = root;
@@ -179,23 +195,23 @@ public class BinaryTree<T> implements IBinaryTree<T> {
 	}
 
 	/** 栈实现 **/
-	// public void inOrderTraverse() {
-	// IStack<IBinaryNode<T>> nodeStack = new LinkedStack<IBinaryNode<T>>();
-	// IBinaryNode<T> currentNode = root;
-	// while (!nodeStack.isEmpty() || currentNode != null) {
-	// // 查询没有左孩子的最左结点
-	// while (currentNode != null) {
-	// nodeStack.push(currentNode);
-	// currentNode = currentNode.getLeftChild();
-	// }
-	// // 访问最左结点，然后遍历它的右子树
-	// if (!nodeStack.isEmpty()) {
-	// IBinaryNode<T> nextNode = nodeStack.pop();
-	// System.out.println(nextNode.getData());
-	// currentNode = nextNode.getRightChild();
-	// }
-	// }
-	// }
+	public void inOrderTraverseStack() {
+		IStack<IBinaryNode<T>> nodeStack = new LinkedStack<IBinaryNode<T>>();
+		IBinaryNode<T> currentNode = root;
+		while (!nodeStack.isEmpty() || currentNode != null) {
+			// 查询没有左孩子的最左结点
+			while (currentNode != null) {
+				nodeStack.push(currentNode);
+				currentNode = currentNode.getLeftChild();
+			}
+			// 访问最左结点，然后遍历它的右子树
+			if (!nodeStack.isEmpty()) {
+				IBinaryNode<T> nextNode = nodeStack.pop();
+//				System.out.println(nextNode.getData());
+				currentNode = nextNode.getRightChild();
+			}
+		}
+	}
 
 	/** 递归实现 **/
 	public void inOrderTraverse() {
@@ -205,7 +221,7 @@ public class BinaryTree<T> implements IBinaryTree<T> {
 	private void inOrderTraverse(BinaryNode<T> node) {
 		if (node != null) {
 			inOrderTraverse((BinaryNode<T>) node.getLeftChild());
-			System.out.println(node.getData());
+//			System.out.println(node.getData());
 			inOrderTraverse((BinaryNode<T>) node.getRightChild());
 		}
 	}

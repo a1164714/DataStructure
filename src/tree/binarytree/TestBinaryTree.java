@@ -38,5 +38,23 @@ public class TestBinaryTree {
 			String next = iterator3.next();
 			System.out.println(next);
 		}
+		System.out.println("--->层级序列");
+		Iterator<String> iterator4 = aTree.getLevelOrderIterator();
+		while (iterator4.hasNext()) {
+			String next = iterator4.next();
+			System.out.println(next);
+		}
+		long start = System.nanoTime();
+		for (int i = 0; i < 1000; i++) {
+			((BinaryTree<String>) aTree).inOrderTraverseStack();
+		}
+		long end = System.nanoTime();
+		System.out.println("inOrderTraverseStack:" + (end - start));
+		start = System.nanoTime();
+		for (int i = 0; i < 1000; i++) {
+			((BinaryTree<String>) aTree).inOrderTraverse();
+		}
+		end = System.nanoTime();
+		System.out.println("inOrderTraverse:" + (end - start));
 	}
 }
